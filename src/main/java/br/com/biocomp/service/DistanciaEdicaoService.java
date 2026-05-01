@@ -1,5 +1,6 @@
 package br.com.biocomp.service;
 
+import br.com.biocomp.dto.MatrizResponse;
 import br.com.biocomp.dto.PassoAnimacaoResponse;
 import br.com.biocomp.model.Operacao;
 import br.com.biocomp.model.Resultado;
@@ -215,4 +216,21 @@ public class DistanciaEdicaoService {
 
         return sb.toString();
     }
+
+    //visualização da matriz
+    public MatrizResponse gerarMatriz(
+            String texto1,
+            String texto2
+    ) {
+
+        int[][] matriz = montarMatriz(texto1, texto2);
+
+        int distancia = matriz[texto1.length()][texto2.length()];
+
+        return new MatrizResponse(
+                distancia,
+                matriz
+        );
+    }
+
 }

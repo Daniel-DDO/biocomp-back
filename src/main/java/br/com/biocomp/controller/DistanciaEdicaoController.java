@@ -1,6 +1,7 @@
 package br.com.biocomp.controller;
 
 import br.com.biocomp.dto.DistanciaRequest;
+import br.com.biocomp.dto.MatrizResponse;
 import br.com.biocomp.dto.PassoAnimacaoResponse;
 import br.com.biocomp.dto.ResultadoResponse;
 import br.com.biocomp.model.Resultado;
@@ -40,6 +41,17 @@ public class DistanciaEdicaoController {
     ) {
 
         return service.gerarPassosAnimacao(
+                request.getTexto1(),
+                request.getTexto2()
+        );
+    }
+
+    @PostMapping("/matriz")
+    public MatrizResponse matriz(
+            @RequestBody DistanciaRequest request
+    ) {
+
+        return service.gerarMatriz(
                 request.getTexto1(),
                 request.getTexto2()
         );
