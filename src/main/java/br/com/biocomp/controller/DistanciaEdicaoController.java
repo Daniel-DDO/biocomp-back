@@ -9,7 +9,10 @@ import br.com.biocomp.service.DistanciaEdicaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/distancia-edicao")
@@ -17,6 +20,8 @@ import java.util.List;
 public class DistanciaEdicaoController {
 
     private final DistanciaEdicaoService service;
+
+    private final long startTime = System.currentTimeMillis();
 
     @PostMapping("/calcular")
     public ResultadoResponse calcular(
@@ -54,6 +59,22 @@ public class DistanciaEdicaoController {
         return service.gerarMatriz(
                 request.getTexto1(),
                 request.getTexto2()
+        );
+    }
+
+    @GetMapping("/status")
+    public Map<String, Object> status() {
+
+        long uptimeMillis = System.currentTimeMillis() - startTime;
+
+        return Map.of(
+                "status", "UP",
+                "service", "distancia-edicao",
+                "timestamp", LocalDateTime.now().toString(),
+                "uptime", Duration.ofMillis(uptimeMillis).toString(),
+                "javaVersion", System.getProperty("java.version"),
+                "memoryUsedMB", (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024),
+                "memoryMaxMB", Runtime.getRuntime().maxMemory() / (1024 * 1024)
         );
     }
 }
